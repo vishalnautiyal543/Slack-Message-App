@@ -6,6 +6,9 @@ import apiRoutes from './routes/apiRoutes.js'
 
 const app = express();
 
+//middlewares
+app.use(express.json())
+
 app.get("/ping", (req, res) => {
   res.status(StatusCodes.OK).json({ message: "Hello, World!" });
 });

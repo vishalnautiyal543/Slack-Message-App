@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import bcrypt from 'bcryptjs';
 
 const userSchema  = new mongoose.Schema({
 
@@ -29,13 +30,15 @@ const userSchema  = new mongoose.Schema({
 {timestamps:true}
 )
 
-userSchema.pre('save',function saveUser(next){
+userSchema.pre('save',function saveUser(){
     const user = this;
+    const hashedPassword = bcrypt.hash(user.password,10);
+    user.password = hashedPassword;
     user.avatar = `https://robohash.dark-gaming.com/${user.username}`
-    next();
+    
 })
 
-const User = mongoose.Model('User',userSchema);
+const User = mongoose.model('User',userSchema);
 
 export default User;
 
